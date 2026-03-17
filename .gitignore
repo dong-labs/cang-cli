@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Agent workspace (用户数据)
+agent/MEMORY.md
+*.db
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
