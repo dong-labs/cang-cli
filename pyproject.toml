@@ -1,6 +1,6 @@
 [project]
 name = "cang-cli"
-version = "0.1.1"
+version = "0.1.2"
 description = "仓咚咚 - 个人金融命令行工具 (AI Native)"
 readme = "readme.md"
 requires-python = ">=3.11"

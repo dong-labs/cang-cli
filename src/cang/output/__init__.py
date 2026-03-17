@@ -10,6 +10,10 @@ from cang.output.formatter import (
     DatabaseError,
     InvalidInputError,
     AlreadyExistsError,
+    success,
+    error,
+    error_from_exception,
+    print_json,
 )
 
 __all__ = [
@@ -22,4 +26,8 @@ __all__ = [
     "DatabaseError",
     "InvalidInputError",
     "AlreadyExistsError",
+    "success",
+    "error",
+    "error_from_exception",
+    "print_json",
 ]
