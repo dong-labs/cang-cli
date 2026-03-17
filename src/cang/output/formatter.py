@@ -4,10 +4,11 @@
 """
 
 import json
-from typing import Any
+from typing import Any, Callable
+from functools import wraps
 
 import typer
-from dong.output.formatter import json_output as _json_output
+from dong.output.formatter import json_output as dong_json_output
 from dong.errors.exceptions import (
     DongError,
     ValidationError,
@@ -20,6 +21,11 @@ CangError = DongError
 DatabaseError = DongError
 InvalidInputError = ValidationError
 AlreadyExistsError = ConflictError
+
+
+def json_output(func: Callable) -> Callable:
+    """装饰器：将函数返回值输出为 JSON"""
+    return dong_json_output(func)
 
 
 def success(data: Any) -> None:
