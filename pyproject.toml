@@ -1,5 +1,5 @@
 [project]
-name = "cang-cli"
+name = "dong-cang"
 version = "0.6.0"
 description = "仓咚咚 - 个人金融命令行工具 (AI Native)"
 readme = "README.md"
