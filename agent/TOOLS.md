@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-pipx install cang-cli
+pipx install dong-cang
 ```
 
 ## 命令列表
