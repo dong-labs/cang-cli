@@ -9,7 +9,7 @@
 from cang.db.connection import get_connection, get_cursor
 
 # 当前 Schema 版本
-SCHEMA_VERSION = "2"
+SCHEMA_VERSION = "3"
 
 
 # ============================================================================
@@ -45,6 +45,7 @@ _SQL_CREATE_TRANSACTIONS_TABLE = """
         account_id INTEGER REFERENCES accounts(id),
         category TEXT,
         note TEXT,
+        tags TEXT DEFAULT '',
         created_at TEXT DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT DEFAULT CURRENT_TIMESTAMP
     )
@@ -220,9 +221,22 @@ def init_database() -> None:
         set_schema_version(SCHEMA_VERSION)
     elif current_version != SCHEMA_VERSION:
         # 版本差异，需要迁移
-        raise ValueError(
-            f"Database version mismatch: expected {SCHEMA_VERSION}, got {current_version}"
-        )
+        _migrate_from_v2(current_version)
+
+
+def _migrate_from_v2(old_version: str) -> None:
+    """从 v2 迁移到 v3（添加 tags 字段）"""
+    with get_cursor() as cur:
+        # 添加 tags 字段到 transactions 表
+        try:
+            cur.execute("ALTER TABLE transactions ADD COLUMN tags TEXT DEFAULT ''")
+        except Exception:
+            pass  # 字段可能已存在
+
+        # 创建 tags 索引
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_transactions_tags ON transactions(tags)")
+
+        set_schema_version(SCHEMA_VERSION)
 
 
 def is_initialized() -> bool:

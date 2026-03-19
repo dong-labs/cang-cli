@@ -71,10 +71,11 @@ def list_tx(
     start: str | None = typer.Option(None, "--start", "-s", help="开始日期 (YYYY-MM-DD)"),
     end: str | None = typer.Option(None, "--end", "-e", help="结束日期 (YYYY-MM-DD)"),
     category: str | None = typer.Option(None, "--category", "-c", help="分类"),
+    tag: str | None = typer.Option(None, "--tag", "-t", help="按标签筛选"),
 ):
     """列出交易记录
 
-    支持按账户、日期范围、分类筛选，可限制和偏移数量。
+    支持按账户、日期范围、分类、标签筛选，可限制和偏移数量。
     """
     # 获取所有交易（repository 需要支持更多筛选条件）
     # 这里先获取基础列表，然后在内存中筛选
@@ -83,6 +84,10 @@ def list_tx(
         account_id=account,
         category=category
     )
+
+    # 按标签筛选
+    if tag:
+        transactions = [t for t in transactions if tag in (t.get("tags") or "")]
 
     # 按日期筛选
     if start:
@@ -113,6 +118,7 @@ def add_tx(
     account: int = typer.Option(..., "--account", "-a", help="账户 ID"),
     category: str | None = typer.Option(None, "--category", "-c", help="分类"),
     note: str | None = typer.Option(None, "--note", "-n", help="备注"),
+    tags: str | None = typer.Option(None, "--tags", help="标签（逗号分隔）"),
     tx_date: str | None = typer.Option(None, "--date", "-d", help="日期 (YYYY-MM-DD)，默认今天"),
 ):
     """添加新交易
@@ -137,7 +143,8 @@ def add_tx(
         amount_cents=amount_cents,
         account_id=account,
         category=category,
-        note=note
+        note=note,
+        tags=tags
     )
 
     return {
@@ -167,6 +174,7 @@ def update_tx(
     account: int | None = typer.Option(None, "--account", "-a", help="新账户 ID"),
     category: str | None = typer.Option(None, "--category", "-c", help="新分类"),
     note: str | None = typer.Option(None, "--note", "-n", help="新备注"),
+    tags: str | None = typer.Option(None, "--tags", help="新标签"),
 ):
     """更新交易
 
@@ -191,7 +199,8 @@ def update_tx(
         amount_cents=amount_cents,
         account_id=account,
         category=category,
-        note=note
+        note=note,
+        tags=tags
     )
 
     return {
@@ -229,6 +238,7 @@ def summary(
     end: str | None = typer.Option(None, "--end", "-e", help="结束日期 (YYYY-MM-DD)"),
     category: str | None = typer.Option(None, "--category", "-c", help="筛选分类"),
     account: int | None = typer.Option(None, "--account", "-a", help="筛选账户 ID"),
+    tag: str | None = typer.Option(None, "--tag", "-t", help="筛选标签"),
 ):
     """交易汇总统计
 
@@ -252,6 +262,10 @@ def summary(
         category=category
     )
 
+    # 按标签筛选
+    if tag:
+        transactions = [t for t in transactions if tag in (t.get("tags") or "")]
+
     # 按日期筛选
     filtered = [
         t for t in transactions
@@ -263,6 +277,16 @@ def summary(
     expense_cents = sum(abs(t["amount_cents"]) for t in filtered if t["amount_cents"] < 0)
     net_cents = income_cents - expense_cents
 
+    # 按标签统计
+    tag_counter = {}
+    for t in filtered:
+        tags = t.get("tags") or ""
+        if tags:
+            for tg in tags.split(","):
+                tg = tg.strip()
+                if tg:
+                    tag_counter[tg] = tag_counter.get(tg, 0) + abs(t["amount_cents"])
+
     return {
         "period": period or "custom",
         "start_date": start_date,
@@ -273,5 +297,6 @@ def summary(
         "income_cents": income_cents,
         "expense_cents": expense_cents,
         "net_cents": net_cents,
-        "transaction_count": len(filtered)
+        "transaction_count": len(filtered),
+        "by_tag": tag_counter
     }

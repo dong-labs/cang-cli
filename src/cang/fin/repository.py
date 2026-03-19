@@ -139,7 +139,8 @@ def create_transaction(
     amount_cents: int,
     account_id: int,
     category: str | None = None,
-    note: str | None = None
+    note: str | None = None,
+    tags: str | None = None
 ) -> dict:
     """创建新交易
 
@@ -149,22 +150,23 @@ def create_transaction(
         account_id: 账户 ID
         category: 分类
         note: 备注
+        tags: 标签（逗号分隔）
 
     Returns:
         新创建的交易信息
     """
     with get_cursor() as cur:
         cur.execute(
-            """INSERT INTO transactions (date, amount_cents, account_id, category, note)
-               VALUES (?, ?, ?, ?, ?)""",
-            (date, amount_cents, account_id, category, note)
+            """INSERT INTO transactions (date, amount_cents, account_id, category, note, tags)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (date, amount_cents, account_id, category, note, tags or "")
         )
         return get_transaction_by_id(cur.lastrowid)
 
 
 # 定义允许更新的字段白名单（防止 SQL 注入）
 _UPDATABLE_TX_FIELDS = frozenset({
-    "date", "amount_cents", "account_id", "category", "note"
+    "date", "amount_cents", "account_id", "category", "note", "tags"
 })
 
 
@@ -203,7 +205,8 @@ def update_transaction(
     amount_cents: int | None = None,
     account_id: int | None = None,
     category: str | None = None,
-    note: str | None = None
+    note: str | None = None,
+    tags: str | None = None
 ) -> dict | None:
     """更新交易
 
@@ -214,6 +217,7 @@ def update_transaction(
         account_id: 新账户 ID
         category: 新分类
         note: 新备注
+        tags: 新标签
 
     Returns:
         更新后的交易信息，如果交易不存在返回 None
@@ -237,6 +241,9 @@ def update_transaction(
     if note is not None:
         fields_to_update.add("note")
         params.append(note)
+    if tags is not None:
+        fields_to_update.add("tags")
+        params.append(tags)
 
     if not fields_to_update:
         return get_transaction_by_id(tx_id)
@@ -404,10 +411,13 @@ def list_transfers(limit: int | None = None) -> list[dict]:
     query = "SELECT * FROM transfers ORDER BY date DESC, id DESC"
     if limit:
         query += " LIMIT ?"
-
-    with get_cursor() as cur:
-        cur.execute(query, [limit] if limit else [])
-        return [dict(row) for row in cur.fetchall()]
+        with get_cursor() as cur:
+            cur.execute(query, [limit])
+            return [dict(row) for row in cur.fetchall()]
+    else:
+        with get_cursor() as cur:
+            cur.execute(query)
+            return [dict(row) for row in cur.fetchall()]
 
 
 # ============================================================================

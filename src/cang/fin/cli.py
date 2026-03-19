@@ -2,7 +2,7 @@
 
 职责:
 - 定义 fin 子命令的路由
-- 注册所有 account/tx/transfer/category/schema 子命令
+- 注册所有 account/tx/transfer/category/schema/search/tags 子命令
 """
 
 import typer
@@ -22,6 +22,13 @@ app.add_typer(tx.app, name="tx")
 app.add_typer(category.app, name="category")
 app.add_typer(transfer.app, name="transfer")
 app.add_typer(schema.app, name="schema")
+
+# 注册独立命令
+from cang.fin.commands.search import search
+from cang.fin.commands.tags import list_tags
+
+app.command()(search)
+app.command(name="tags")(list_tags)
 
 
 # 默认分类列表
@@ -95,7 +102,7 @@ def db_schema():
                 "columns": ["id", "name", "type", "currency", "created_at"]
             },
             "transactions": {
-                "columns": ["id", "date", "amount_cents", "account_id", "category", "note", "created_at"]
+                "columns": ["id", "date", "amount_cents", "account_id", "category", "note", "tags", "created_at"]
             },
             "categories": {
                 "columns": ["id", "name"]

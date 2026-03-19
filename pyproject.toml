@@ -1,6 +1,6 @@
 [project]
 name = "cang-cli"
-version = "0.2.0"
+version = "0.4.0"
 description = "仓咚咚 - 个人金融命令行工具 (AI Native)"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -13,11 +13,11 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
+    "pytest-cov>=4.0",
 ]
 
 [project.scripts]
-cang = "cang.cli:app"
+dong-cang = "cang.cli:app"
 
 [build-system]
 requires = ["hatchling"]
