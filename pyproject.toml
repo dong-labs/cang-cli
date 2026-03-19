@@ -1,6 +1,6 @@
 [project]
 name = "cang-cli"
-version = "0.5.0"
+version = "0.6.0"
 description = "仓咚咚 - 个人金融命令行工具 (AI Native)"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -25,3 +25,4 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cang"]
+
