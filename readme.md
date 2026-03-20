@@ -2,6 +2,9 @@
 
 > 仓咚咚 - 个人金融命令行工具 (AI Native)
 
+[![Version](https://img.shields.io/badge/Version-0.6.0-blue.svg)](https://pypi.org/project/dong-cang/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 Cang CLI 是一个本地优先的个人财务管理工具，所有数据存储在本地 SQLite 数据库中。
 
 ## 特性
