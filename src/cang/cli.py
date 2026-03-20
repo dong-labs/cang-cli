@@ -145,6 +145,35 @@ def init():
         handle_error(e)
 
 
+@app.command()
+def export(
+    output: str = typer.Option("cang.json", "-o", "--output", help="输出文件"),
+    format: str = typer.Option("json", "-f", "--format", help="格式: json/md"),
+):
+    """导出财务数据"""
+    from cang.output.export import export as do_export
+    
+    try:
+        do_export(output, format)
+    except Exception as e:
+        handle_error(e)
+
+
+@app.command(name="import")
+def import_data(
+    file: str = typer.Option(..., "-f", "--file", help="导入文件"),
+    merge: bool = typer.Option(False, "--merge", help="合并模式"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="预览模式"),
+):
+    """导入财务数据"""
+    from cang.output.data_import import import_data as do_import
+    
+    try:
+        do_import(file, merge, dry_run)
+    except Exception as e:
+        handle_error(e)
+
+
 # ============================================================================
 # 注册模块子命令
 # ============================================================================
