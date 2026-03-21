@@ -31,72 +31,72 @@ pipx install dong-cang
 ### 初始化
 
 ```bash
-cang init
+dong-cang init
 ```
 
 ### 添加账户
 
 ```bash
 # 添加现金账户
-cang fin account add "现金" cash
+dong-cang fin account add "现金" cash
 
 # 添加银行卡
-cang fin account add "招商银行" bank --currency CNY
+dong-cang fin account add "招商银行" bank --currency CNY
 ```
 
 ### 记录支出
 
 ```bash
 # 记录一笔餐饮支出
-cang fin tx add --account "现金" --amount 50 --category "餐饮" "午餐"
+dong-cang fin tx add --account "现金" --amount 50 --category "餐饮" "午餐"
 
 # 记录购物支出
-cang fin tx add --account "招商银行" --amount 299 --category "购物" "买衣服"
+dong-cang fin tx add --account "招商银行" --amount 299 --category "购物" "买衣服"
 ```
 
 ### 记录收入
 
 ```bash
-cang fin tx add --account "招商银行" --amount 10000 --category "工资" --type income "发工资"
+dong-cang fin tx add --account "招商银行" --amount 10000 --category "工资" --type income "发工资"
 ```
 
 ### 查看账户
 
 ```bash
 # 列出所有账户
-cang fin account ls
+dong-cang fin account ls
 
 # 查看账户余额
-cang fin account get 1
+dong-cang fin account get 1
 ```
 
 ### 记录资产
 
 ```bash
 # 添加固定资产
-cang asset add --name "自住房" --type real_estate --value 5000000
+dong-cang asset add --name "自住房" --type real_estate --value 5000000
 
 # 添加车辆
-cang asset add --name "特斯拉 Model 3" --type vehicle --value 250000 --purchase-date "2024-01-01"
+dong-cang asset add --name "特斯拉 Model 3" --type vehicle --value 250000 --purchase-date "2024-01-01"
 ```
 
 ### 记录投资
 
 ```bash
 # 买入股票
-cang invest buy --symbol "600519" --price 1800 --quantity 100
+dong-cang invest buy --symbol "600519" --price 1800 --quantity 100
 
 # 卖出股票
-cang invest sell --symbol "600519" --price 1850 --quantity 50
+dong-cang invest sell --symbol "600519" --price 1850 --quantity 50
 
 # 记录分红
-cang invest dividend --symbol "600519" --amount 500
+dong-cang invest dividend --symbol "600519" --amount 500
 ```
 
 ### 查看持仓
 
 ```bash
-cang invest holdings
+dong-cang invest holdings
 ```
 
 ## 命令结构
