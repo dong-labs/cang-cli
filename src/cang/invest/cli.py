@@ -50,7 +50,7 @@ def init_cmd(force: bool = typer.Option(False, "--force", "-f", help="强制重�
     }
 
 
-@app.command("ls")
+@app.command("list")
 @json_output
 def list_transactions(
     symbol: str | None = typer.Option(None, "--symbol", "-s", help="筛选股票代码"),

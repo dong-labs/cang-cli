@@ -62,7 +62,7 @@ def _parse_period(period: str) -> tuple[str, str]:
     return start, end
 
 
-@app.command(name="ls")
+@app.command(name="list")
 @json_output
 def list_tx(
     limit: int | None = typer.Option(None, "--limit", "-l", help="限制数量"),

@@ -64,7 +64,7 @@ dong-cang fin tx add --account "招商银行" --amount 10000 --category "工资"
 
 ```bash
 # 列出所有账户
-dong-cang fin account ls
+dong-cang fin account list
 
 # 查看账户余额
 dong-cang fin account get 1
@@ -112,7 +112,7 @@ cang
 │   └── category      # 分类管理
 ├── asset             # 资产存量
 │   ├── init
-│   ├── ls            # 列出资产
+│   ├── list          # 列出资产
 │   ├── add           # 添加资产
 │   ├── get           # 获取资产
 │   ├── update        # 更新资产
@@ -125,7 +125,7 @@ cang
 │   └── history       # 历史记录
 └── invest            # 投资记录
     ├── init
-    ├── ls            # 列出交易
+    ├── list          # 列出交易
     ├── buy           # 买入
     ├── sell          # 卖出
     ├── dividend      # 分红

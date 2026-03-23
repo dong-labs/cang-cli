@@ -24,7 +24,7 @@ ACCOUNT_TYPES = ["cash", "bank", "alipay", "wechat", "credit"]
 app = typer.Typer(help="账户管理")
 
 
-@app.command(name="ls")
+@app.command(name="list")
 @json_output
 def list_accounts_cmd():
     """列出所有账户"""

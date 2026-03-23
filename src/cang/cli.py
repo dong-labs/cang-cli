@@ -49,7 +49,7 @@ def version_callback(value: bool) -> None:
     """
     if value:
         output({
-            "name": "cang-cli",
+            "name": "dong-cang",
             "version": __version__,
             "description": "仓咚咚 - 个人金融命令行工具 (AI Native)"
         })
@@ -61,7 +61,7 @@ def version_callback(value: bool) -> None:
 # ============================================================================
 
 app = typer.Typer(
-    name="cang",
+    name="dong-cang",
     help="仓咚咚 (Cang) - 个人金融命令行工具 (AI Native)",
     no_args_is_help=True,
     add_completion=False,

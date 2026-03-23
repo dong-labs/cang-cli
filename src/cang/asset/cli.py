@@ -27,7 +27,7 @@ from cang.asset.commands import (
 )
 
 app.add_typer(init.app, name="init")
-app.command("ls")(asset_list.ls_assets)
+app.command("list")(asset_list.ls_assets)
 app.command("add")(add.add_asset)
 app.command("get")(get.get_asset)
 app.command("update")(update.update_asset_cmd)
